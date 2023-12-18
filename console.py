@@ -136,7 +136,9 @@ class HBNBCommand(cmd.Cmd):
                 key = kv[0]
                 value = kv[1]
                 if value[0] == value[-1] == '"':
-                    value = shlex.split(value)[0].replace('_', ' ')
+                    value = value.strip('"').replace('_', ' ')
+                    a = value.split('"')
+                    value = a[0] + '\\' + '"' + a[1]
                 else:
                     try:
                         value = int(value)

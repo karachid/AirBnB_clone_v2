@@ -148,7 +148,8 @@ class HBNBCommand(cmd.Cmd):
                 d[key] = value
             new_instance = HBNBCommand.classes[largs[0]]()
             for k,v in d.items():
-                setattr(new_instance, k, v)
+                if hasattr(new_instance, k):
+                    setattr(new_instance, k, v)
         else:
             print("** class doesn't exist **")
             return

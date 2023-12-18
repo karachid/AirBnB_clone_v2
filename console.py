@@ -162,8 +162,7 @@ class HBNBCommand(cmd.Cmd):
                     if a[1][0] == '"' and a[1][-1] == '"':
                         a[1] = a[1].strip('"').replace("_", " ")
                         value = str(a[1])
-                        f = 1
-                    if hasattr(new_instance, a[0]) and f == 1:
+                    if hasattr(new_instance, a[0]):
                         flag = 1
                         if f == 0 and value.isdigit():
                             value = int(value)

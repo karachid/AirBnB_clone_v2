@@ -145,25 +145,21 @@ class HBNBCommand(cmd.Cmd):
                     if ((value[0] == '"' and value[-1] != '"') or
                        (value[0] != '"' and value[-1] == '"')):
                         continue
-                    if a[1][0] != '"' and a[1][-1] != '"':
-                        continue
-                    if a[1][0] == '"' and a[1][-1] == '"':
+                    if value.isdigit():
+                        value = int(value)
+                        f = 1
+                    elif self.is_float(value):
+                        value = float(value)
+                        f = 1
+                    elif a[1][0] == '"' and a[1][-1] == '"':
                         a[1] = a[1].strip('"').replace("_", " ")
                         value = str(a[1])
                         f = 1
-                    if hasattr(new_instance, a[0]):
+                    if hasattr(new_instance, a[0]) and f == 1:
                         flag = 1
-                        if f == 0 and value.isdigit():
-                            value = int(value)
-                        elif f == 0 and self.is_float(value):
-                            value = float(value)
                         setattr(new_instance, a[0], value)
                 else:
                     continue
-        '''
-        if len(arg) == 1:
-            new_instance = HBNBCommand.classes[arg[0]]()
-        '''
         if flag == 1:
             storage.save()
             print(new_instance.id)

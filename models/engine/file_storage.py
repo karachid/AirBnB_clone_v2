@@ -22,7 +22,7 @@ class FileStorage:
             return FileStorage.__objects
 
         for k, v in FileStorage.__objects.items():
-            if cls ==  v.__class__.__name__ or v.__class__:
+            if cls == v.__class__ or v.__class__.__name__:
                 d[k] = v
         return d
 

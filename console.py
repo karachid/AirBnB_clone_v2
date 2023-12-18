@@ -137,8 +137,9 @@ class HBNBCommand(cmd.Cmd):
                 value = kv[1]
                 if value[0] == value[-1] == '"':
                     value = value.strip('"').replace('_', ' ')
-                    a = value.split('"')
-                    value = a[0] + '\\' + '"' + a[1]
+                    if '"' in value:
+                        a = value.split('"')
+                        value = a[0] + '\\"' + a[1]
                 else:
                     try:
                         value = int(value)

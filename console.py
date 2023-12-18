@@ -10,7 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-
+import shlex
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
@@ -19,15 +19,15 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+            'BaseModel': BaseModel, 'User': User, 'Place': Place,
+            'State': State, 'City': City, 'Amenity': Amenity,
+            'Review': Review
+            }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
+            'number_rooms': int, 'number_bathrooms': int,
+            'max_guest': int, 'price_by_night': int,
+            'latitude': float, 'longitude': float
             }
 
     def preloop(self):
@@ -75,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
                     # check for *args or **kwargs
                     if pline[0] is '{' and pline[-1] is'}'\
                             and type(eval(pline)) is dict:
-                        _args = pline
+                                _args = pline
                     else:
                         _args = pline.replace(',', '')
                         # _args = _args.replace('\"', '')
@@ -114,15 +114,34 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
+        largs = args.split()
+
         """ Create an object of any class"""
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        if largs[0] in HBNBCommand.classes:
+            d = {}
+            for arg in largs[1:]:
+                if "=" in arg:
+                    kv = arg.split('=', 1)
+                key = kv[0]
+                value = kv[1]
+                if value[0] == value[-1] == '"':
+                    value = shlex.split(value)[0].replace('_', ' ')
+                else:
+                    try:
+                        value = int(value)
+                    except:
+                        try:
+                            value = float(value)
+                        except:
+                            continue
+                d[key] = value
+            new_instance = HBNBCommand.classes[largs[0]](**d)
+        else:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
         print(new_instance.id)
         storage.save()
 

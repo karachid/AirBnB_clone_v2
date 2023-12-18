@@ -135,7 +135,7 @@ class HBNBCommand(cmd.Cmd):
         if (len(arg) == 2):
             strings = arg[1].split()
             for string in strings:
-                '''f = 0'''
+                f = 0
                 if string.count("=") == 1 and (string[0] == '='
                    or string[-1] == '='):
                     continue
@@ -165,14 +165,21 @@ class HBNBCommand(cmd.Cmd):
                         value = str(a[1])
                     '''
                     if hasattr(new_instance, a[0]):
-                        flag = 1
-                        if value.isdigit():
+                        if type(getattr(new_instance, a[0])) == int\
+                           and value.isdigit():
                             value = int(value)
-                        elif self.is_float(value):
+                            f = 1
+                        elif type(getattr(new_instance, a[0])) == float\
+                                and self.is_float(value):
                             value = float(value)
-                        elif a[1][0] == '"' and a[1][-1] == '"':
+                            f = 1
+                        elif type(getattr(new_instance, a[0])) == str\
+                                and a[1][0] == '"' and a[1][-1] == '"':
                             value = a[1].strip('"').replace("_", " ")
-                        setattr(new_instance, a[0], value)
+                            f = 1
+                        if f == 1:
+                            flag = 1
+                            setattr(new_instance, a[0], value)
                 else:
                     continue
         '''

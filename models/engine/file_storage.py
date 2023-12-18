@@ -16,6 +16,7 @@ class FileStorage:
         for k, v in dic.items():
             if obj == v:
                 key = k
+                break
         del dic[key]
 
     def all(self, cls=None):

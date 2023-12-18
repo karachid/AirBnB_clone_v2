@@ -155,7 +155,8 @@ class HBNBCommand(cmd.Cmd):
                         a[1] = a[1].strip('"').replace("_", " ")
                         value = str(a[1])
                         f = 1
-                    if hasattr(new_instance, a[0]) and f == 1:
+                    if hasattr(new_instance, a[0]) and f == 1\
+                       and type(getattr(new_instance, a[0])) == type(value):
                         flag = 1
                         setattr(new_instance, a[0], value)
                 else:

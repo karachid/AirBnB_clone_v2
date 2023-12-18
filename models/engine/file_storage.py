@@ -17,7 +17,10 @@ class FileStorage:
             if obj == v:
                 key = k
                 break
-        del dic[key]
+        try:
+            del dic[key]
+        except KeyError as e:
+            pass
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""

@@ -8,7 +8,7 @@ class State(BaseModel, Base):
     """ State class """
     if storage_type == "db":
         __tablename__ = "states"
-        name = Column(String(128), nullable=True)
+        name = Column(String(128), nullable=False)
         cities = relationship("City", backref="state")
     else:
         name = ""

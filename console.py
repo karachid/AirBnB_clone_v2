@@ -134,20 +134,20 @@ class HBNBCommand(cmd.Cmd):
             for arg in largs[1:]:
                 if "=" in arg:
                     kv = arg.split('=', 1)
-                key = kv[0]
-                value = kv[1]
-                if value[0] == value[-1] == '"':
-                    value = value.strip('"').replace('_', ' ')
-                    """ value = HBNBCommand.add_backslash(value) """
-                else:
-                    try:
-                        value = int(value)
-                    except:
+                    key = kv[0]
+                    value = kv[1]
+                    if value[0] == value[-1] == '"':
+                        value = value.strip('"').replace('_', ' ')
+                        """ value = HBNBCommand.add_backslash(value) """
+                    else:
                         try:
-                            value = float(value)
+                            value = int(value)
                         except:
-                            continue
-                d[key] = value
+                            try:
+                                value = float(value)
+                            except:
+                                continue
+                    d[key] = value
             new_instance = HBNBCommand.classes[largs[0]](**d)
         else:
             print("** class doesn't exist **")

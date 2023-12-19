@@ -151,14 +151,17 @@ class HBNBCommand(cmd.Cmd):
                         except:
                             continue
                 d[key] = value
-            new_instance = HBNBCommand.classes[largs[0]]()
+            new_instance = HBNBCommand.classes[largs[0]](**d)
+            '''
             for k,v in d.items():
                 if hasattr(new_instance, k):
                     setattr(new_instance, k, v)
+            '''
         else:
             print("** class doesn't exist **")
             return
-        print(new_instance.id)
+        print("id:", new_instance.id)
+        storage.new(new_instance)
         storage.save()
     
     def help_create(self):
@@ -235,17 +238,20 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
         print_list = []
-
         if args:
+            print("before args: ", args)
             args = args.split(' ')[0]  # remove possible trailing args
+            print("after args: ", args)
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            print("storage all: ",storage.all(args))
+            for k, v in storage.all(args).items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            print("calling all: else")
+            for k, v in storage.all().items():
                 print_list.append(str(v))
 
         print(print_list)

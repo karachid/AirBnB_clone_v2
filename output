@@ -1,0 +1,21 @@
+(hbnb)
+conditiondo all
+beginig
+State
+all dbstroge
+cls: State
+{}
+all dbstroge
+cls: State
+consition 1
+[]
+(hbnb) 
+}'\
+./console.py:76: SyntaxWarning: "is" with a literal. Did you mean "=="?
+  if pline[0] is '{' and pline[-1] is '}'\
+./console.py:317: SyntaxWarning: "is" with a literal. Did you mean "=="?
+  if args and args[0] is '\"':  # check for quoted arg
+./console.py:325: SyntaxWarning: "is not" with a literal. Did you mean "!="?
+  if not att_name and args[0] is not ' ':
+./console.py:328: SyntaxWarning: "is" with a literal. Did you mean "=="?
+  if args[2] and args[2][0] is '\"':

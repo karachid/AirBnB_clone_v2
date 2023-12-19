@@ -10,7 +10,6 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-import shlex
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
@@ -114,12 +113,14 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     @staticmethod
-    def is_float(s):
-        try:
-            float_value = float(s)
-            return float_value != int(float_value)
-        except ValueError:
-            return False
+    def add_backslash(st):
+        ns = ""
+        for s in st:
+            if s == '"':
+                ns += '\\' + s
+            else:
+                ns += s
+        return ns
 
     def do_create(self, args):
         largs = args.split()
@@ -137,11 +138,8 @@ class HBNBCommand(cmd.Cmd):
                 value = kv[1]
                 if value[0] == value[-1] == '"':
                     value = value.strip('"').replace('_', ' ')
-                    '''
-                    if '"' in value:
-                        a = value.split('"')
-                        value = a[0] + '\\"' + a[1]
-                    '''
+                    value = HBNBCommand.add_backslash(value)
+                    print(value)
                 else:
                     try:
                         value = int(value)
@@ -152,15 +150,10 @@ class HBNBCommand(cmd.Cmd):
                             continue
                 d[key] = value
             new_instance = HBNBCommand.classes[largs[0]](**d)
-            '''
-            for k,v in d.items():
-                if hasattr(new_instance, k):
-                    setattr(new_instance, k, v)
-            '''
         else:
             print("** class doesn't exist **")
             return
-        print("id:", new_instance.id)
+        print(new_instance.id)
         storage.new(new_instance)
         storage.save()
     
@@ -239,18 +232,14 @@ class HBNBCommand(cmd.Cmd):
         """ Shows all objects, or all objects of a class"""
         print_list = []
         if args:
-            print("before args: ", args)
             args = args.split(' ')[0]  # remove possible trailing args
-            print("after args: ", args)
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            print("storage all: ",storage.all(args))
             for k, v in storage.all(args).items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            print("calling all: else")
             for k, v in storage.all().items():
                 print_list.append(str(v))
 

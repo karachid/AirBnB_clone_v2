@@ -3,7 +3,7 @@
 import uuid
 from models import storage, storage_type
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Float
 from sqlalchemy.ext.declarative import declarative_base
 
 if storage_type == "db":

@@ -11,10 +11,10 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
+
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
 
-    # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     classes = {
@@ -74,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
                     # check for *args or **kwargs
                     if pline[0] is '{' and pline[-1] is '}'\
                             and type(eval(pline)) is dict:
-                                _args = pline
+                        _args = pline
                     else:
                         _args = pline.replace(',', '')
                         # _args = _args.replace('\"', '')
@@ -123,9 +123,9 @@ class HBNBCommand(cmd.Cmd):
         return ns
 
     def do_create(self, args):
-        largs = args.split()
-        
         """ Create an object of any class"""
+
+        largs = args.split()
         if not args:
             print("** class name missing **")
             return
@@ -138,7 +138,7 @@ class HBNBCommand(cmd.Cmd):
                 value = kv[1]
                 if value[0] == value[-1] == '"':
                     value = value.strip('"').replace('_', ' ')
-                    #value = HBNBCommand.add_backslash(value)
+                    value = HBNBCommand.add_backslash(value)
                 else:
                     try:
                         value = int(value)
@@ -155,7 +155,7 @@ class HBNBCommand(cmd.Cmd):
         print(new_instance.id)
         storage.new(new_instance)
         storage.save()
-    
+
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")

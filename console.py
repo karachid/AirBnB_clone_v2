@@ -139,7 +139,6 @@ class HBNBCommand(cmd.Cmd):
                 if value[0] == value[-1] == '"':
                     value = value.strip('"').replace('_', ' ')
                     value = HBNBCommand.add_backslash(value)
-                    print(value)
                 else:
                     try:
                         value = int(value)

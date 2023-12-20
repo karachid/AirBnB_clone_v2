@@ -11,6 +11,7 @@ from models.place import Place
 from models.review import Review
 """
 
+
 class FileStorage:
     """This class manages storage of hbnb models in JSON format"""
     __file_path = 'file.json'
@@ -30,7 +31,7 @@ class FileStorage:
             return FileStorage.__objects
 
         for k, v in FileStorage.__objects.items():
-            if cls == v.__class__ or v.__class__.__name__:
+            if cls == v.__class__.__name__:
                 d[k] = v
         return d
 

@@ -1,9 +1,21 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models import storage_type, storage
-from models.base_model import BaseModel, Base, Column
+from models.base_model import BaseModel, Base, Column, Table
 from models.base_model import String, Integer, ForeignKey, Float
 from sqlalchemy.orm import relationship
+from models.amenity import Amenity
+
+
+association_table = Table('place_amenity', Base.metadata,
+                          Column('place_id', String(60),
+                                 ForeignKey('places.id'),
+                                 primary_key=True,
+                                 nullable=False),
+                          Column('amenity_id', String(60),
+                                 ForeignKey('amenities.id'),
+                                 primary_key=True,
+                                 nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -22,6 +34,8 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=False)
         longitude = Column(Float, nullable=False)
         reviews = relationship("Review", backref="place")
+        amenities = relationship("Amenity", secondary="place_amenity",
+                                 viewonly=False)
 
     else:
         city_id = ""
@@ -44,6 +58,19 @@ class Place(BaseModel, Base):
                     if v.place_id == self.id:
                         listReview.append(v)
             return listReview
+
+        @property
+        def amenities(self):
+            listAmenity = []
+            for obj in storage.all().values():
+                if obj.id in self.amenity_ids:
+                    listAmenity.append(obj)
+            return listAmenity
+
+        @amenities.setter
+        def amenities(self, value):
+            if isinstance(value, Amenity):
+                self.amenity_ids.append(value.id)
 
     def __init__(self, *args, **kwargs):
         '''place constructor'''

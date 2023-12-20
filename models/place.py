@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models import storage_type, storage
-from models.base_model import BaseModel, Base, Column, Table
+from models.base_model import BaseModel, Base, Column
 from models.base_model import String, Integer, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from models.amenity import Amenity
+from sqlalchemy import Table
 
 
 association_table = Table('place_amenity', Base.metadata,

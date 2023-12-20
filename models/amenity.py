@@ -7,7 +7,7 @@ from models import storage_type
 
 class Amenity(BaseModel, Base):
     """amenity Class"""
-    if storage_type == db:
+    if storage_type == "db":
         __tablename__ = "amenities"
         name = Column(String(128), nullable=False)
         place_amenities = relationship("Place", secondary="place_amenity",

@@ -138,7 +138,7 @@ class HBNBCommand(cmd.Cmd):
                     value = kv[1]
                     if value[0] == value[-1] == '"':
                         value = value.strip('"').replace('_', ' ')
-                        """ value = HBNBCommand.add_backslash(value) """
+                        value = HBNBCommand.add_backslash(value)
                     else:
                         try:
                             value = int(value)

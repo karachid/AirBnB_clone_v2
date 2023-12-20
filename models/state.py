@@ -2,7 +2,8 @@
 """ State Module for HBNB project """
 from models.base_model import BaseModel, Base, Column, String
 from sqlalchemy.orm import relationship
-from  models import storage_type
+from models import storage_type
+
 
 class State(BaseModel, Base):
     """ State class """
@@ -12,15 +13,15 @@ class State(BaseModel, Base):
         cities = relationship("City", backref="state")
     else:
         name = ""
-    
+
     if storage_type != "db":
         @property
         def cities(self):
             listCity = []
             for obj in storage.all().values():
                 if obj.__class__.__name__ == "City":
-                        if obj.state_id == self.id:
-                            listCity.append(obj)
+                    if obj.state_id == self.id:
+                        listCity.append(obj)
             return listCit
 
     def __init__(self, *args, **kwargs):

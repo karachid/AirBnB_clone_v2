@@ -11,14 +11,17 @@ if storage_type == "db":
 else:
     Base = object
 
+
 class BaseModel:
     """A base class for all hbnb models"""
 
     if storage_type == "db":
         id = Column(String(60), unique=True, nullable=False, primary_key=True)
-        created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-        updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-    
+        created_at = Column(DateTime, nullable=False,
+                            default=datetime.utcnow())
+        updated_at = Column(DateTime, nullable=False,
+                            default=datetime.utcnow())
+
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
@@ -33,12 +36,12 @@ class BaseModel:
                 self.created_at = datetime.now()
             else:
                 self.created_at = datetime.strptime(kwargs['updated_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
+                                                    '%Y-%m-%dT%H:%M:%S.%f')
             if 'created_at' not in kwargs.keys():
                 self.updated_at = datetime.now()
             else:
                 self.updated_at = datetime.strptime(kwargs['created_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
+                                                    '%Y-%m-%dT%H:%M:%S.%f')
             if 'id' not in kwargs.keys():
                 self.id = str(uuid.uuid4())
             '''
@@ -71,4 +74,4 @@ class BaseModel:
 
     def delete(self):
         '''delete the current instance from the storage'''
-        storage.delete(self) 
+        storage.delete(self)

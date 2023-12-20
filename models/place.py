@@ -5,6 +5,7 @@ from models.base_model import BaseModel, Base, Column
 from models.base_model import String, Integer, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from models.amenity import Amenity
+from models.review import Review
 from sqlalchemy import Table
 
 if storage_type == "db":
@@ -55,7 +56,8 @@ class Place(BaseModel, Base):
         def reviews(self):
             listReview = []
             for k, v in storage.all().items():
-                if k.split('.')[0] == "Review":
+                """if k.split('.')[0] == "Review":"""
+                if isinstance(v, Review):
                     if v.place_id == self.id:
                         listReview.append(v)
             return listReview

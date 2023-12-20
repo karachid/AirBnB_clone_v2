@@ -6,12 +6,12 @@ from  models import storage_type
 
 class State(BaseModel, Base):
     """ State class """
-    if storage_type == "db":
-        __tablename__ = "states"
-        name = Column(String(128), nullable=True)
-        cities = relationship("City", backref="state")
-    else:
-        name = ""
+    #if storage_type == "db":
+    __tablename__ = "states"
+    name = Column(String(128), nullable=True)
+    cities = relationship("City", backref="state")
+    #else:
+        #name = ""
     
     if storage_type != "db":
         @property
@@ -22,7 +22,7 @@ class State(BaseModel, Base):
                         if obj.state_id == self.id:
                             listCity.append(obj)
             return listCit
-    
+
     def __init__(self, *args, **kwargs):
         '''state constructor'''
         super().__init__(*args, **kwargs)

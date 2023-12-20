@@ -22,6 +22,7 @@ class BaseModel:
             self.updated_at = datetime.now()
         else:
             for k, v in kwargs.items():
+                print(f"k: {k}, v:{v}")
                 setattr(self, k, v)
             if 'updated_at' not in kwargs.keys():
                 self.created_at = datetime.now()

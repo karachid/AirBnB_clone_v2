@@ -160,7 +160,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class doesn't exist **")
             return
-        print("id:", new_instance.id)
+        print(new_instance.id)
         storage.new(new_instance)
         storage.save()
     

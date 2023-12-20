@@ -55,13 +55,9 @@ class DBStorage:
             objs.extend(self.__session.query(Review).all())
             objs.extend(self.__session.query(Amenity).all())
         else:
-            print("cls:", cls)
             if type(cls) == str:
                 cls = eval(cls)
-            try:
                 objs = self.__session.query(cls)
-            except:
-                print("errooor")
         return {"{}.{}".format(type(o).__name__, o.id): o for o in objs}
 
     def new(self, obj):

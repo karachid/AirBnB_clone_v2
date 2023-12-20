@@ -10,12 +10,11 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-import shlex
+
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
 
-    # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     classes = {
@@ -75,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
                     # check for *args or **kwargs
                     if pline[0] is '{' and pline[-1] is '}'\
                             and type(eval(pline)) is dict:
-                                _args = pline
+                        _args = pline
                     else:
                         _args = pline.replace(',', '')
                         # _args = _args.replace('\"', '')
@@ -114,17 +113,19 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     @staticmethod
-    def is_float(s):
-        try:
-            float_value = float(s)
-            return float_value != int(float_value)
-        except ValueError:
-            return False
+    def add_backslash(st):
+        ns = ""
+        for s in st:
+            if s == '"':
+                ns += '\\' + s
+            else:
+                ns += s
+        return ns
 
     def do_create(self, args):
-        largs = args.split()
-        
         """ Create an object of any class"""
+
+        largs = args.split()
         if not args:
             print("** class name missing **")
             return
@@ -133,37 +134,28 @@ class HBNBCommand(cmd.Cmd):
             for arg in largs[1:]:
                 if "=" in arg:
                     kv = arg.split('=', 1)
-                key = kv[0]
-                value = kv[1]
-                if value[0] == value[-1] == '"':
-                    value = value.strip('"').replace('_', ' ')
-                    '''
-                    if '"' in value:
-                        a = value.split('"')
-                        value = a[0] + '\\"' + a[1]
-                    '''
-                else:
-                    try:
-                        value = int(value)
-                    except:
+                    key = kv[0]
+                    value = kv[1]
+                    if value[0] == value[-1] == '"':
+                        value = value.strip('"').replace('_', ' ')
+                        """ value = HBNBCommand.add_backslash(value) """
+                    else:
                         try:
-                            value = float(value)
+                            value = int(value)
                         except:
-                            continue
-                d[key] = value
+                            try:
+                                value = float(value)
+                            except:
+                                continue
+                    d[key] = value
             new_instance = HBNBCommand.classes[largs[0]](**d)
-            '''
-            for k,v in d.items():
-                if hasattr(new_instance, k):
-                    setattr(new_instance, k, v)
-            '''
         else:
             print("** class doesn't exist **")
             return
         print(new_instance.id)
         storage.new(new_instance)
         storage.save()
-    
+
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
@@ -239,18 +231,14 @@ class HBNBCommand(cmd.Cmd):
         """ Shows all objects, or all objects of a class"""
         print_list = []
         if args:
-            print("before args: ", args)
             args = args.split(' ')[0]  # remove possible trailing args
-            print("after args: ", args)
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            print("storage all: ",storage.all(args))
             for k, v in storage.all(args).items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            print("calling all: else")
             for k, v in storage.all().items():
                 print_list.append(str(v))
 

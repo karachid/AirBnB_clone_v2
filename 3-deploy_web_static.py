@@ -25,7 +25,7 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """It uploads an archive to both web servers"""
+    """It uploads an archive to both servers"""
     if exists(archive_path) is False:
         return False
     try:

@@ -87,3 +87,7 @@ class DBStorage:
         session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+
+    def close(self):
+        """Calling remove() method on the private session attribute"""
+        self.__session.remove()

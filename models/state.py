@@ -16,6 +16,8 @@ class State(BaseModel, Base):
 
         @property
         def cities(self):
+            from models import storage
+
             listCity = []
             for obj in storage.all().values():
                 if obj.__class__.__name__ == "City":

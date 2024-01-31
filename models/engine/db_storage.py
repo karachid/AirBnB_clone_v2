@@ -9,7 +9,7 @@ class DBStorage:
     """This class manages storage of hbnb models in database"""
     __engine = None
     __session = None
-    
+
     def __init__(self):
         """DBStorage constructor"""
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'

@@ -24,7 +24,3 @@ class State(BaseModel, Base):
                     if obj.state_id == self.id:
                         listCity.append(obj)
             return listCit
-
-    def __init__(self, *args, **kwargs):
-        '''state constructor'''
-        super().__init__(*args, **kwargs)

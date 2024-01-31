@@ -16,6 +16,7 @@ class State(BaseModel, Base):
 
         @property
         def cities(self):
+            """ getter attribute cities """
             from models import storage
 
             listCity = []
